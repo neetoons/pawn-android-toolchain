@@ -1,6 +1,9 @@
 # pawn-android-toolchain
 Develop, edit, and compile Pawn scripts directly on your Android device using the powerful combination of Termux and Acode.
 
+![view](https://raw.githubusercontent.com/neetoons/pawn-android-toolchain/main/view.gif)
+
+---
 # Setup Guide
 
 ## Installation Prerequisite: F-Droid
@@ -30,7 +33,7 @@ pkg upgrade
 Next, execute the following command to begin the compiler installation using the provided script:
 
 ```sh
-curl -sL https://raw.githubusercontent.com/neetoons/pawn-android-toolchain/refs/heads/master/environment.sh | bash
+curl -sL https://raw.githubusercontent.com/neetoons/pawn-android-toolchain/refs/heads/main/environment.sh | bash
 ```
 
   * If prompted to grant file access permissions, please do so.
@@ -74,7 +77,9 @@ pawncc main.pwn
 ```
 
 You can re-execute the command quickly by pressing the **Up Arrow** in the AcodeX terminal.
+> `pawncc` command will search for the include folder in the qawno directory. If you want it to search for it in the pawno directory, use `pawncc-old`.
 
+---
 ## Workflow Summary
 
 To view and edit your code, open the **Acode** app and navigate to your gamemode/project folder using the app's file explorer.
@@ -86,6 +91,11 @@ Whenever you want to work on your project and compile, you will follow these ste
 3.  Open the **AcodeX Terminal** (it may connect automatically).
 4.  Execute `startalpine`.
 5.  Navigate to your project folder using `cd` in the `/sdcard` directories.
+---
+## SAMP/OPEN.MP Server installation
+
+Enter the command `install-omp` or `install-samp` to easily download the SA-MP/OPEN.MP server for Linux into your gamemode.
+
 ---
 ## Why is Alpine Linux used?
 The use of Alpine Linux is because the pawncc compiler does not work correctly (on other systems, implicitly), this is a problem that will possibly be solved in the future. Also, it is easier/more convenient to install other programs.
