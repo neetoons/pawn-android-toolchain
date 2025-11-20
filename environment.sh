@@ -7,12 +7,16 @@ termux-setup-storage
 pkg update -y
 pkg install curl git which -y
 
-echo "--- Installing Acode plugin ---"
-if curl -sL https://raw.githubusercontent.com/bajrangCoder/acode-plugin-acodex/main/installServer.sh | bash; then
-  echo "Acode installed finished successfully."
+echo "--- Installing Acodex Server---"
+if which axs >/dev/null; then
+  echo "--- AcodeX Server is already installed ---"
 else
-  echo "ERROR: The Acode plugin installation has failed." >&2
-  exit 1
+  if curl -sL https://raw.githubusercontent.com/bajrangCoder/acode-plugin-acodex/main/installServer.sh | bash; then
+    echo "Acode installed finished successfully."
+  else
+    echo "ERROR: The Acodex Terminal installation has failed." >&2
+    exit 1
+  fi
 fi
 
 echo "--- Installing Termux Alpine ---"
@@ -79,8 +83,8 @@ else
 fi
 
 echo "adding pawncc alias"
-echo "alias pawncc='pawncc -Dgamemodes -i../qawno/include -d3 -Z -\(+ -;+' > ~/.profile"
-echo "alias pawncc-old='pawncc -Dgamemodes -i../pawno/include -d3 -Z -\(+ -;+' >> ~/.profile"
+echo "alias pawncc='pawncc -Dgamemodes -i../qawno/include -d3 -Z -\(+ -;+'" > ~/.profile
+echo "alias pawncc-old='pawncc -Dgamemodes -i../pawno/include -d3 -Z -\(+ -;+'" >> ~/.profile
 echo "adding samp/omp server alias"
 echo "alias install-omp='wget https://github.com/openmultiplayer/open.mp/releases/download/v1.4.0.2779/open.mp-linux-x86.tar.gz && tar -xf open.mp-linux-x86.tar.gz && cp ./Server/omp-server . && rm -fr Server open.mp-linux-x86.tar.gz'" >> ~/.profile
 echo "alias install-samp='wget https://gta-multiplayer.cz/downloads/samp037svr_R2-2-1.tar.gz && tar -xf samp037svr_R2-2-1.tar.gz && cp samp03/samp03svr samp03/samp-npc . && rm -fr samp03 samp037svr_R2-2-1.tar.gz'" >> ~/.profile
