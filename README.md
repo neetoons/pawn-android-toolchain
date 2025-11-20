@@ -89,10 +89,6 @@ Whenever you want to work on your project and compile, you will follow these ste
 3.  Open the **AcodeX Terminal** (it may connect automatically).
 4.  Execute `startalpine`.
 5.  Navigate to your project folder using `cd` in the `/sdcard` directories.
----
-## SAMP/OPEN.MP Server installation
-
-Enter the command `install-omp` or `install-samp` to easily download the SA-MP/OPEN.MP server for Linux into your gamemode.
 
 ---
 
