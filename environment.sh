@@ -50,7 +50,7 @@ echo "Installing building dependencies"
 apk add git cmake alpine-sdk linux-headers
 
 PAWN_DIR="/tmp/pawn-compiler"
-echo "Cloning compiler source
+echo "Cloning compiler source"
 rm -fr "\$PAWN_DIR"
 git clone https://github.com/openmultiplayer/compiler.git "\$PAWN_DIR"
 
