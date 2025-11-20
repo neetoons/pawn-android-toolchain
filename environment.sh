@@ -61,8 +61,8 @@ mv pawncc /usr/bin/
 mv libpawnc.so /usr/lib/
 
 rm -fr "\$PAWN_DIR"
-echo "alias pawncc='pawncc -Dgamemodes -i../qawno/include -d3 -Z -\(+ -;+'" >> ~/.profile
-echo "alias pawncc-old='pawncc -Dgamemodes -i../pawno/include -d3 -Z -\(+ -;+'" >> ~/.profile
+echo "alias pawncc='pawncc -Dgamemodes -i../qawno/include -d3 -Z -\(+ -;+' >> ~/.profile"
+echo "alias pawncc-old='pawncc -Dgamemodes -i../pawno/include -d3 -Z -\(+ -;+' >> ~/.profile"
 echo "alias install-omp='wget https://github.com/openmultiplayer/open.mp/releases/download/v1.4.0.2779/open.mp-linux-x86.tar.gz && tar -xf open.mp-linux-x86.tar.gz && cp ./Server/omp-server . && rm -fr Server open.mp-linux-x86.tar.gz'"
 echo "alias install-samp='wget https://gta-multiplayer.cz/downloads/samp037svr_R2-2-1.tar.gz && tar -xf samp037svr_R2-2-1.tar.gz && cp samp03/samp03svr samp03/samp-npc . && rm -fr samp03 samp037svr_R2-2-1.tar.gz'"
 source ~/.profile

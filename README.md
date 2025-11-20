@@ -1,5 +1,5 @@
 # pawn-android-toolchain
-Develop, edit, and compile Pawn scripts directly on your Android device using the powerful combination of Termux and Acode.
+Develop, edit, and compile Pawn scripts directly on your Android device using the powerful combination of Termux and Acode, which is essential for [San Andreas Multiplayer (SA-MP)](https://www.sa-mp.mp/) server development.
 
 ![view](https://raw.githubusercontent.com/neetoons/pawn-android-toolchain/main/view.gif)
 
@@ -14,7 +14,7 @@ Recommendation: Install the [F-Droid](https://f-droid.org/F-Droid.apk) client fi
 
 ## Required applications 
 
-* [Termux](https://f-droid.org/en/packages/com.termux/): This is the terminal emulator that provides a powerful Linux environment on your device. It hosts the Pawn compiler and the server required for communication.
+* [Termux](https://f-droid.org/en/packages/com.termux/): This is the terminal emulator that provides a powerful Linux environment on your device. It hosts the [Pawn compiler](https://github.com/openmultiplayer/compiler) and the server required for communication.
 * [Acode](https://f-droid.org/en/packages/com.foxdebug.acode/): This is the primary code editor you will use to write and manage your projects. 
 * [AcodeX - Terminal](https://acode.app/plugin/bajrangcoder.acodex): Acode plugin which enables the connection to the Termux server, allowing you to run compilation commands directly from your editor.
 
@@ -48,8 +48,7 @@ Acode will serve as your primary editor and terminal interface.
   * In the Acode application, go to the **Plugins** section and install the [**AcodeX - Terminal**](https://acode.app/plugin/bajrangcoder.acodex) plugin.
   * To use **AcodeX**, press `Ctrl+K` or search for `"Open Terminal"` in the command palette (which can be opened by pressing `Ctrl+Shift+P`).
   * Enter the port number shown by the `axs` command in Termux, and the terminal session should start.
-  * To enter the specialized environment for compilation (often an Alpine Linux container/shell), execute the following command:
-
+  * To enter the specialized environment for compilation (often an Alpine Linux container/shell), execute the following command in the AcodeX terminal: 
 <!-- end list -->
 
 ```sh
@@ -70,19 +69,18 @@ ls
 cd Documents/samp-super-roleplay
 ```
 
-Once inside your project directory, you can run the compiler. Remember that `main.pwn` is an example name, you must replace it with the name of your gamemode/script:
+Once inside your project directory, you can run the compiler. 
 
 ```sh 
 pawncc main.pwn
 ```
+>`main.pwn` is an example name, you must replace it with the name of your gamemode/script.
 
 You can re-execute the command quickly by pressing the **Up Arrow** in the AcodeX terminal.
 > `pawncc` command will search for the include folder in the qawno directory. If you want it to search for it in the pawno directory, use `pawncc-old`.
 
 ---
 ## Workflow Summary
-
-To view and edit your code, open the **Acode** app and navigate to your gamemode/project folder using the app's file explorer.
 
 Whenever you want to work on your project and compile, you will follow these steps:
 
@@ -97,5 +95,11 @@ Whenever you want to work on your project and compile, you will follow these ste
 Enter the command `install-omp` or `install-samp` to easily download the SA-MP/OPEN.MP server for Linux into your gamemode.
 
 ---
+
+## Alternative to Acode (Neovim)
+
+You can use Neovim as your editor directly within the Termux terminal, eliminating the need for Acode. This can be faster and easier to use, provided you are familiar with the tool.
+
+---
 ## Why is Alpine Linux used?
-The use of Alpine Linux is because the pawncc compiler does not work correctly (on other systems, implicitly), this is a problem that will possibly be solved in the future. Also, it is easier/more convenient to install other programs.
+The use of Alpine Linux is because the [Pawn Compiler](https://github.com/openmultiplayer/compiler) does not work correctly (on other systems, implicitly), this is a problem that will possibly be solved in the future. Also, it is easier/more convenient to install other programs.
