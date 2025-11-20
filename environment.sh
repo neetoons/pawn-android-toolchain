@@ -21,7 +21,7 @@ ALPINE_SCRIPT="TermuxAlpine.sh"
 ALPINE_URL="https://raw.githubusercontent.com/Hax4us/TermuxAlpine/master/TermuxAlpine.sh"
 
 if which startalpine >/dev/null; then
-  echo "--- Termux Alpine is already installed"
+  echo "--- Termux Alpine is already installed ---"
 else
   if ! curl -LO "$ALPINE_URL"; then
     echo "ERROR: TermuxAlpine.sh download failed " >&2
@@ -37,40 +37,53 @@ else
   echo "Termux Alpine installed."
 fi
 
-echo "--- Building and Installing the Pawn compiler (pawncc) ---"
+echo "--- Starting alpine linux ---"
 
 startalpine <<EOF
 set -eu
 
-echo "Starting Alpine enviroment"
-echo "Updating ALpine packages"
+echo "Updating Alpine packages"
 apk update
 apk upgrade
-echo "Installing building dependencies"
-apk add git cmake alpine-sdk linux-headers
 
-PAWN_DIR="/tmp/pawn-compiler"
-echo "Cloning compiler source"
-rm -fr "\$PAWN_DIR"
-git clone https://github.com/openmultiplayer/compiler.git "\$PAWN_DIR"
+if which pawncc > /dev/null; then
+  echo "--- Pawn Compiler is already installed ---"
+else
+  echo "--- Installing the Pawn compiler (pawncc) ---"
+  echo "Installing building dependencies"
+  apk add git cmake alpine-sdk linux-headers
 
-cd "\$PAWN_DIR/source/compiler"
-echo "Starting building"
-mkdir build
-cd build
-cmake .. -DCMAKE_BUILD_TYPE=Release -Wno-dev
-make -j\$(nproc)
+  PAWN_DIR="/tmp/pawn-compiler"
+  echo "Cloning compiler source"
+  rm -fr "\$PAWN_DIR"
+  git clone https://github.com/openmultiplayer/compiler.git "\$PAWN_DIR"
 
-echo "Installing pawncc and libpawnc.so /usr/bin y /usr/lib"
-mv pawncc /usr/bin/
-mv libpawnc.so /usr/lib/
+  cd "\$PAWN_DIR/source/compiler"
+  echo "Starting building"
+  mkdir build
+  cd build
+  cmake .. -DCMAKE_BUILD_TYPE=Release -Wno-dev
+  make -j\$(nproc)
 
-rm -fr "\$PAWN_DIR"
+  echo "Installing pawncc and libpawnc.so /usr/bin y /usr/lib"
+  mv pawncc /usr/bin/
+  mv libpawnc.so /usr/lib/
+  if which pawncc >/dev/null; then
+    pawncc -v
+    echo "Pawn compiler has been installed successfully in Alpine"
+  else
+    echo "ERROR: Pawn Compiler installation has failed"
+    exit 1
+  fi
+  rm -fr "\$PAWN_DIR"
+fi
+
+echo "adding pawncc alias"
 echo "alias pawncc='pawncc -Dgamemodes -i../qawno/include -d3 -Z -\(+ -;+' > ~/.profile"
 echo "alias pawncc-old='pawncc -Dgamemodes -i../pawno/include -d3 -Z -\(+ -;+' >> ~/.profile"
-echo "alias install-omp='wget https://github.com/openmultiplayer/open.mp/releases/download/v1.4.0.2779/open.mp-linux-x86.tar.gz && tar -xf open.mp-linux-x86.tar.gz && cp ./Server/omp-server . && rm -fr Server open.mp-linux-x86.tar.gz' >> ~/.profile"
-echo "alias install-samp='wget https://gta-multiplayer.cz/downloads/samp037svr_R2-2-1.tar.gz && tar -xf samp037svr_R2-2-1.tar.gz && cp samp03/samp03svr samp03/samp-npc . && rm -fr samp03 samp037svr_R2-2-1.tar.gz' >> ~/.profile"
+echo "adding samp/omp server alias"
+echo "alias install-omp='wget https://github.com/openmultiplayer/open.mp/releases/download/v1.4.0.2779/open.mp-linux-x86.tar.gz && tar -xf open.mp-linux-x86.tar.gz && cp ./Server/omp-server . && rm -fr Server open.mp-linux-x86.tar.gz'" >> ~/.profile
+echo "alias install-samp='wget https://gta-multiplayer.cz/downloads/samp037svr_R2-2-1.tar.gz && tar -xf samp037svr_R2-2-1.tar.gz && cp samp03/samp03svr samp03/samp-npc . && rm -fr samp03 samp037svr_R2-2-1.tar.gz'" >> ~/.profile
 source ~/.profile
-pawncc -v
-echo "Pawn compiler has been installed successfully in Alpine"
+echo "Installation finished successfully"
 EOF
