@@ -43,8 +43,8 @@ fi
 
 PAWNCC_INSTALL_URL="https://raw.githubusercontent.com/neetoons/pawn-android-toolchain/refs/heads/dev/pawncc_install.sh"
 PAWNCC_INSTALL_SCRIPT="install_pawncc_alpine.sh"
-
 echo "--- Downloading pawncc installation setup script ---"
+
 if ! curl -sL "$PAWNCC_INSTALL_URL" -o "$PAWNCC_INSTALL_SCRIPT"; then
     echo "ERROR: The pawncc install script download failed." >&2
     exit 1
@@ -55,10 +55,10 @@ echo "pawncc installation downloaded successfully."
 echo "--- Starting alpine linux ---"
 
 startalpine <<EOF
-set -eu
-/home/"$USER"/"$PAWNCC_INSTALL_SCRIPT"
+curl -sL $ALPINE_MODULAR_URL | sh
 EOF
 
+startalpine /bin/sh -c "curl -sL $ALPINE_MODULAR_URL | sh"
 echo "--- Cleanup Termux files ---"
 rm -f "$PAWN_INSTALL_SCRIPT"
 
