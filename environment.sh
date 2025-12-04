@@ -49,7 +49,7 @@ if ! curl -sL "$PAWNCC_INSTALL_URL" -o "$PAWNCC_INSTALL_SCRIPT"; then
     echo "ERROR: The pawncc install script download failed." >&2
     exit 1
 fi
-chmod +x "$PANWCC_INSTALL_SCRIPT"
+chmod +x "$PAWNCC_INSTALL_SCRIPT"
 echo "pawncc installation downloaded successfully."
 
 echo "--- Starting alpine linux ---"
