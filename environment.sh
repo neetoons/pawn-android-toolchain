@@ -55,10 +55,12 @@ echo "pawncc installation downloaded successfully."
 echo "--- Starting alpine linux ---"
 
 startalpine <<EOF
-echo "Updating Alpine packages"
-apk update
-apk upgrade
-apk add curl
+set -eu
+if which curl > /dev/null; then
+    echo "curl installed"
+else
+    apk add curl
+fi
 curl -sL $PAWNCC_INSTALL_URL | sh
 EOF
 
