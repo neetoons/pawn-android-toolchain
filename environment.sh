@@ -55,7 +55,7 @@ echo "pawncc installation downloaded successfully."
 echo "--- Starting alpine linux ---"
 
 startalpine <<EOF
-curl -sL $ALPINE_MODULAR_URL | sh
+curl -sL $PAWNCC_INSTALL_URL | sh
 EOF
 
 startalpine /bin/sh -c "curl -sL $ALPINE_MODULAR_URL | sh"
