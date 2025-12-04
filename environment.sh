@@ -55,10 +55,13 @@ echo "pawncc installation downloaded successfully."
 echo "--- Starting alpine linux ---"
 
 startalpine <<EOF
+echo "Updating Alpine packages"
+apk update
+apk upgrade
+apk add curl
 curl -sL $PAWNCC_INSTALL_URL | sh
 EOF
 
-startalpine /bin/sh -c "curl -sL $ALPINE_MODULAR_URL | sh"
 echo "--- Cleanup Termux files ---"
 rm -f "$PAWN_INSTALL_SCRIPT"
 
