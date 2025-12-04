@@ -2,9 +2,6 @@
 
 set -euo pipefail
 
-PAWNCC_INSTALL_URL="https://raw.githubusercontent.com/neetoons/pawn-android-toolchain/refs/heads/dev/pawncc_install.sh"
-PAWNCC_INSTALL_SCRIPT="install_pawncc_alpine.sh"
-
 echo "--- 1. Setting up termux configuration and dependencies ---"
 termux-setup-storage
 pkg update -y
@@ -44,22 +41,25 @@ else
   echo "Termux Alpine installed."
 fi
 
-echo "--- Starting alpine linux ---"
+PAWNCC_INSTALL_URL="https://raw.githubusercontent.com/neetoons/pawn-android-toolchain/refs/heads/dev/pawncc_install.sh"
+PAWNCC_INSTALL_SCRIPT="install_pawncc_alpine.sh"
 
-echo "--- Downloading Alpine setup script ---"
+echo "--- Downloading pawncc installation setup script ---"
 if ! curl -sL "$PAWNCC_INSTALL_URL" -o "$PAWNCC_INSTALL_SCRIPT"; then
     echo "ERROR: The pawncc install script download failed." >&2
     exit 1
 fi
-chmod +x "$ALPINE_MODULAR_SCRIPT"
-echo "Modular script downloaded successfully."
+chmod +x "$PANWCC_INSTALL_SCRIPT"
+echo "pawncc installation downloaded successfully."
+
+echo "--- Starting alpine linux ---"
 
 startalpine <<EOF
 set -eu
-/home/"$USER"/"$ALPINE_MODULAR_SCRIPT"
+/home/"$USER"/"$PAWNCC_INSTALL_SCRIPT"
 EOF
 
 echo "--- Cleanup Termux files ---"
-rm -f "$ALPINE_MODULAR_SCRIPT"
+rm -f "$PAWN_INSTALL_SCRIPT"
 
 echo "Full setup finished successfully."
