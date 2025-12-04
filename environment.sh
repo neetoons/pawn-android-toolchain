@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-PAWNCC_INSTALL_URL="https://raw.githubusercontent.com/TuUsuario/TuRepo/main/install_pawncc_alpine.sh"
+PAWNCC_INSTALL_URL="https://raw.githubusercontent.com/neetoons/pawn-android-toolchain/refs/heads/dev/pawncc_install.sh"
 PAWNCC_INSTALL_SCRIPT="install_pawncc_alpine.sh"
 
 echo "--- 1. Setting up termux configuration and dependencies ---"
