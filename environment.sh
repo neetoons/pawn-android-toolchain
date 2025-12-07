@@ -5,7 +5,7 @@ set -euo pipefail
 echo "--- 1. Setting up termux configuration and dependencies ---"
 termux-setup-storage
 pkg update -y
-pkg install curl git which -y
+pkg install curl which -y
 
 echo "--- Installing Acodex Server---"
 if which axs >/dev/null; then
