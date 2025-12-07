@@ -1,21 +1,21 @@
 #!/bin/sh
-set -eu
-PAWN_VERSION="v3.10.11"
+PAWN_VERSION="3.10.11"
 echo "Updating Alpine packages"
 if which pawncc > /dev/null; then
   echo "--- Pawn Compiler is already installed ---"
 else
   echo "--- Installing the Pawn compiler (pawncc) ---"
   echo "Installing building dependencies"
-  apk add cmake alpine-sdk linux-headers
+  echo "https://dl-cdn.alpinelinux.org/alpine/v3.22/main" > /etc/apk/repositories
+  apk add cmake=3.31.7-r1 alpine-sdk=1.1-r0 curl 
 
   PAWN_DIR="/tmp/pawn-compiler"
   echo "Downloading compiler source"
   rm -fr $PAWN_DIR "$PAWN_DIR.zip"
-  curl -Lo "$PAWN_DIR.zip" https://github.com/openmultiplayer/compiler/archive/refs/tags/$PAWN_VERSION.zip
-  unzip "$PWN_DIR.zip" -d $PWN_DIR
-
-  cd "$PAWN_DIR/source/compiler"
+  curl -Lo "$PAWN_DIR.zip" "https://github.com/openmultiplayer/compiler/archive/refs/tags/v$PAWN_VERSION.zip"
+  cd  /tmp/
+  unzip "$PAWN_DIR.zip" 
+  cd "compiler-$PAWN_VERSION/source/compiler"
   echo "Starting building"
   mkdir build
   cd build
@@ -32,7 +32,7 @@ else
     echo "ERROR: Pawn Compiler installation has failed"
     exit 1
   fi
-  rm -fr $PAWN_DIR "$PAWN_DIR.zip"
+  rm -fr "compiler-$PAWN_VERSION" "$PAWN_DIR.zip"
 fi
 
 echo "adding pawncc alias"
