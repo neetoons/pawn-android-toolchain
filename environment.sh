@@ -55,7 +55,6 @@ echo "pawncc installation downloaded successfully."
 echo "--- Starting alpine linux ---"
 
 startalpine <<EOF
-set -eu
 if which curl > /dev/null; then
     echo "curl installed"
 else
