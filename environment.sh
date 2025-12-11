@@ -5,13 +5,15 @@ set -euo pipefail
 echo "--- 1. Setting up termux configuration and dependencies ---"
 termux-setup-storage
 pkg update -y
-pkg install curl git which -y
+pkg install curl which -y
+
+ACODEX_SCRIPT="https://raw.githubusercontent.com/bajrangCoder/acode-plugin-acodex/main/installServer.sh"
 
 echo "--- Installing Acodex Server---"
 if which axs >/dev/null; then
   echo "--- AcodeX Server is already installed ---"
 else
-  if curl -sL https://raw.githubusercontent.com/bajrangCoder/acode-plugin-acodex/main/installServer.sh | bash; then
+  if curl -sL $ACODEX_SCRIPT | bash; then
     echo "Acode installed finished successfully."
   else
     echo "ERROR: The Acodex Terminal installation has failed." >&2
@@ -27,64 +29,43 @@ ALPINE_URL="https://raw.githubusercontent.com/Hax4us/TermuxAlpine/master/TermuxA
 if which startalpine >/dev/null; then
   echo "--- Termux Alpine is already installed ---"
 else
-  if ! curl -LO "$ALPINE_URL"; then
+  if ! curl -LO $ALPINE_URL; then
     echo "ERROR: TermuxAlpine.sh download failed " >&2
     exit 1
   fi
 
-  if ! bash "$ALPINE_SCRIPT"; then
+  if ! bash $ALPINE_SCRIPT; then
     echo "ERROR: Alpine Terminux installation has failed." >&2
-    rm -f "$ALPINE_SCRIPT"
+    rm -f $ALPINE_SCRIPT
     exit 1
   fi
-  rm -f "$ALPINE_SCRIPT"
+  rm -f $ALPINE_SCRIPT
   echo "Termux Alpine installed."
 fi
+
+PAWNCC_INSTALL_URL="https://raw.githubusercontent.com/neetoons/pawn-android-toolchain/refs/heads/main/pawncc_install.sh"
+PAWNCC_INSTALL_SCRIPT="install_pawncc_alpine.sh"
+echo "--- Downloading pawncc installation setup script ---"
+
+if ! curl -sL $PAWNCC_INSTALL_URL -o $PAWNCC_INSTALL_SCRIPT; then
+    echo "ERROR: The pawncc install script download failed." >&2
+    exit 1
+fi
+chmod +x $PAWNCC_INSTALL_SCRIPT
+echo "pawncc installation downloaded successfully."
 
 echo "--- Starting alpine linux ---"
 
 startalpine <<EOF
-set -eu
-
-echo "Updating Alpine packages"
-apk update
-apk upgrade
-
-if which pawncc > /dev/null; then
-  echo "--- Pawn Compiler is already installed ---"
+if which curl > /dev/null; then
+    echo "curl installed"
 else
-  echo "--- Installing the Pawn compiler (pawncc) ---"
-  echo "Installing building dependencies"
-  apk add git cmake alpine-sdk linux-headers
-
-  PAWN_DIR="/tmp/pawn-compiler"
-  echo "Cloning compiler source"
-  rm -fr "\$PAWN_DIR"
-  git clone https://github.com/openmultiplayer/compiler.git "\$PAWN_DIR"
-
-  cd "\$PAWN_DIR/source/compiler"
-  echo "Starting building"
-  mkdir build
-  cd build
-  cmake .. -DCMAKE_BUILD_TYPE=Release -Wno-dev
-  make -j\$(nproc)
-
-  echo "Installing pawncc and libpawnc.so /usr/bin y /usr/lib"
-  mv pawncc /usr/bin/
-  mv libpawnc.so /usr/lib/
-  if which pawncc >/dev/null; then
-    pawncc -v
-    echo "Pawn compiler has been installed successfully in Alpine"
-  else
-    echo "ERROR: Pawn Compiler installation has failed"
-    exit 1
-  fi
-  rm -fr "\$PAWN_DIR"
+    apk add curl
 fi
-
-echo "adding pawncc alias"
-echo "alias pawncc='pawncc -Dgamemodes -i../qawno/include -d3 -Z \"-;+\"'" > ~/.profile
-echo "alias pawncc-old='pawncc -Dgamemodes -i../pawno/include -d3 -Z \"-;+\"'" >> ~/.profile
-source ~/.profile
-echo "Installation finished successfully"
+curl -sL $PAWNCC_INSTALL_URL | sh
 EOF
+
+echo "--- Cleanup Termux files ---"
+rm -f $PAWNCC_INSTALL_SCRIPT
+
+echo "Full setup finished successfully."
