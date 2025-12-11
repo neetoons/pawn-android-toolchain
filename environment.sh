@@ -7,11 +7,13 @@ termux-setup-storage
 pkg update -y
 pkg install curl which -y
 
+ACODEX_SCRIPT="https://raw.githubusercontent.com/bajrangCoder/acode-plugin-acodex/main/installServer.sh"
+
 echo "--- Installing Acodex Server---"
 if which axs >/dev/null; then
   echo "--- AcodeX Server is already installed ---"
 else
-  if curl -sL https://raw.githubusercontent.com/bajrangCoder/acode-plugin-acodex/main/installServer.sh | bash; then
+  if curl -sL $ACODEX_SCRIPT | bash; then
     echo "Acode installed finished successfully."
   else
     echo "ERROR: The Acodex Terminal installation has failed." >&2
@@ -27,17 +29,17 @@ ALPINE_URL="https://raw.githubusercontent.com/Hax4us/TermuxAlpine/master/TermuxA
 if which startalpine >/dev/null; then
   echo "--- Termux Alpine is already installed ---"
 else
-  if ! curl -LO "$ALPINE_URL"; then
+  if ! curl -LO $ALPINE_URL; then
     echo "ERROR: TermuxAlpine.sh download failed " >&2
     exit 1
   fi
 
-  if ! bash "$ALPINE_SCRIPT"; then
+  if ! bash $ALPINE_SCRIPT; then
     echo "ERROR: Alpine Terminux installation has failed." >&2
-    rm -f "$ALPINE_SCRIPT"
+    rm -f $ALPINE_SCRIPT
     exit 1
   fi
-  rm -f "$ALPINE_SCRIPT"
+  rm -f $ALPINE_SCRIPT
   echo "Termux Alpine installed."
 fi
 
@@ -45,11 +47,11 @@ PAWNCC_INSTALL_URL="https://raw.githubusercontent.com/neetoons/pawn-android-tool
 PAWNCC_INSTALL_SCRIPT="install_pawncc_alpine.sh"
 echo "--- Downloading pawncc installation setup script ---"
 
-if ! curl -sL "$PAWNCC_INSTALL_URL" -o "$PAWNCC_INSTALL_SCRIPT"; then
+if ! curl -sL $PAWNCC_INSTALL_URL -o $PAWNCC_INSTALL_SCRIPT; then
     echo "ERROR: The pawncc install script download failed." >&2
     exit 1
 fi
-chmod +x "$PAWNCC_INSTALL_SCRIPT"
+chmod +x $PAWNCC_INSTALL_SCRIPT
 echo "pawncc installation downloaded successfully."
 
 echo "--- Starting alpine linux ---"
@@ -64,6 +66,6 @@ curl -sL $PAWNCC_INSTALL_URL | sh
 EOF
 
 echo "--- Cleanup Termux files ---"
-rm -f "$PAWN_INSTALL_SCRIPT"
+rm -f $PAWNCC_INSTALL_SCRIPT
 
 echo "Full setup finished successfully."
